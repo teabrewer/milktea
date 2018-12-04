@@ -1,9 +1,9 @@
 <template>
   <section>
     <transition-group name="list" tag="ul">
-      <li v-for="(todoItem, index) in propsdata" class="shadow" v-bind:key="index">
+      <li v-for="(todoItem, index) in todoList" class="shadow" v-bind:key="index">
         <i class="checkBtn fa fa-check" aria-hidden="true"></i>
-        <list-input :inputContent="todoItem"></list-input>
+        <list-input :props-input="todoList[index]" :props-idx="index" @listItemKeyupEnter="clickListItem"></list-input>
         <span class="removeBtn" type="button" @click="removeTodo(todoItem, index)">
           <i class="fa fa-trash-o" aria-hidden="true"></i>
         </span>
@@ -19,12 +19,15 @@ export default {
   props: ['propsdata'],
   data () {
     return {
-      todoItem
+      todoList: this.propsdata
     }
   },
   methods: {
     removeTodo (todoItem, index) {
       this.$emit('removeTodo', todoItem, index)
+    },
+    clickListItem (val, idx) {
+      this.$emit('listItemKeyupEnter', val, idx)
     }
   },
   components: {

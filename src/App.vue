@@ -2,7 +2,7 @@
   <div id="app">
     <todo-header></todo-header>
     <todo-input v-on:addTodo="addTodo"></todo-input>
-    <todo-list :propsdata="todoItems" @removeTodo="removeTodo"></todo-list>
+    <todo-list :propsdata="todoItems" @removeTodo="removeTodo" @listItemKeyupEnter="updateTodo"></todo-list>
     <todo-footer v-on:removeAll="clearAll"></todo-footer>
   </div>
 </template>
@@ -12,7 +12,7 @@ import TodoHeader from './components/TodoHeader.vue'
 import TodoInput from './components/TodoInput.vue'
 import TodoList from './components/TodoList.vue'
 import TodoFooter from './components/TodoFooter.vue'
-import storage from './util/LocalStorage'
+import Storage from './util/LocalStorage'
 
 export default {
   data () {
@@ -22,26 +22,32 @@ export default {
   },
 
   created () {
-    if (storage.size() > 0) {
-      for (let i=0; i<storage.size(); i++) {
-        this.todoItems.push(storage.get(i))
+    if (Storage.size() > 0) {
+      for (let i=0; i<Storage.size(); i++) {
+        this.todoItems.push(Storage.get(i))
       }
     }
   },
   
   methods: {
+    refresh () {
+      this.todoItems = Storage.getAll()
+    },
     addTodo (todoItem) {
-      storage.add(todoItem)
+      Storage.add(todoItem)
       this.todoItems.push(todoItem)
     },
     clearAll () {
-      storage.clearAll()
+      Storage.clearAll()
       this.todoItems = []
     },
     removeTodo (todoItem, index) {
-      console.log('removeTodo !')
-      storage.remove(index)
+      Storage.remove(index)
       this.todoItems.splice(index, 1)
+    },
+    updateTodo (val, idx) {
+      Storage.set(idx, val)
+      alert('update success !')
     }
   },
   components: {

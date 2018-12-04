@@ -1,13 +1,19 @@
 <template>
-    <input type="text" v-model="inputContent">
+    <input type="text" v-model="inputContent" @keyup.enter="clickListItem">
 </template>
 
 <script>
 export default {
-    props: ['inputContent'],
+    props: ['propsInput', 'propsIdx'],
     data () {
         return {
-            inputContent
+            idx: this.propsIdx,
+            inputContent: this.propsInput
+        }
+    },
+    methods: {
+        clickListItem () {
+            this.$emit('listItemKeyupEnter', this.inputContent, this.idx)
         }
     }
 }

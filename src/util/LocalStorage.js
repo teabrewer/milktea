@@ -1,13 +1,17 @@
 const STORAGE_NAME = 'MyLocalStorage'
 
 // initialize
-localStorage.removeItem(STORAGE_NAME)
+//localStorage.removeItem(STORAGE_NAME)
 
 export default {
 
     get (idx) {
         const obj = getStorageObj()
         return obj[idx]
+    },
+
+    getAll () {
+        return getStorageObj()
     },
 
     size () {
@@ -18,6 +22,12 @@ export default {
     add (val) {
         const obj = getStorageObj()
         obj.push(val)
+        setStorageObj(obj)
+    },
+
+    set (idx, val) {
+        const obj = getStorageObj()
+        obj[idx] = val
         setStorageObj(obj)
     },
 
