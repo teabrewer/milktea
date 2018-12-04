@@ -3,7 +3,7 @@
     <transition-group name="list" tag="ul">
       <li v-for="(todoItem, index) in propsdata" class="shadow" v-bind:key="index">
         <i class="checkBtn fa fa-check" aria-hidden="true"></i>
-        {{ todoItem }}
+        <list-input :inputContent="todoItem"></list-input>
         <span class="removeBtn" type="button" @click="removeTodo(todoItem, index)">
           <i class="fa fa-trash-o" aria-hidden="true"></i>
         </span>
@@ -13,12 +13,22 @@
 </template>
 
 <script>
+import ListInput from './ListInput.vue'
+
 export default {
   props: ['propsdata'],
+  data () {
+    return {
+      todoItem
+    }
+  },
   methods: {
     removeTodo (todoItem, index) {
       this.$emit('removeTodo', todoItem, index)
     }
+  },
+  components: {
+    ListInput
   }
 }
 </script>
